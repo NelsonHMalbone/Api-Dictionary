@@ -1,5 +1,5 @@
 from flask import Flask, render_template
-
+import pandas as pd
 app = Flask(__name__)
 
 
@@ -9,10 +9,13 @@ def home():
 
 
 @app.route("/api/v1/<word>")
-def defination(word):
-    dictionary_word = word.upper()
-    result_dictionary = {'Defination': dictionary_word,
-                         'word': word}
+def defination(word, definition):
+    filename = "dictionary.csv"
+    df = pd.read_csv(filename)
+    dictionary_word = df.loc[word]
+    dictionary = df.loc[definition]
+    result_dictionary = {'Defination': dictionary,
+                         'word': dictionary_word}
     return result_dictionary
 
 
